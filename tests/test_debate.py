@@ -119,6 +119,8 @@ def test_token_count_logged(transcript_path):
         assert r["devil"]["token_count"] > 0
         assert r["advocate"]["token_count"] == 200  # 120 in + 80 out, from usage
     assert result["meta"]["total_tokens"] == 200 * 2 * len(rounds)
+    assert result["meta"]["total_input_tokens"] == 120 * 2 * len(rounds)
+    assert result["meta"]["total_output_tokens"] == 80 * 2 * len(rounds)
 
 
 def test_retry_on_api_error(transcript_path):

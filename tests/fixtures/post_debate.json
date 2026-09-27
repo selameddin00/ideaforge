@@ -1,0 +1,89 @@
+{
+  "session_id": "test-smoke-001",
+  "parsed_at": "2026-09-27T00:00:00Z",
+  "message_count": 3,
+  "transcript": [
+    {
+      "id": 1,
+      "role": "user",
+      "content": "I want to build a tool that turns any AI conversation into a structured product spec automatically.",
+      "timestamp": "2026-09-27T00:00:00Z",
+      "word_count": 18
+    },
+    {
+      "id": 2,
+      "role": "assistant",
+      "content": "Interesting. What triggers the pipeline — a keyword, a time limit, or a confidence score?",
+      "timestamp": "2026-09-27T00:01:00Z",
+      "word_count": 17
+    },
+    {
+      "id": 3,
+      "role": "user",
+      "content": "A maturity score. Once the idea hits 0.8 confidence it kicks off automatically.",
+      "timestamp": "2026-09-27T00:02:00Z",
+      "word_count": 15
+    }
+  ],
+  "maturity": {
+    "score": 0.87,
+    "triggered_by": "soft_score",
+    "signals": {
+      "lexical_saturation": true,
+      "question_type_shift": true,
+      "feasibility_query": true,
+      "summary_confirmation": false
+    }
+  },
+  "debate": {
+    "rounds": [
+      {
+        "round": 1,
+        "advocate": {
+          "content": "This idea solves a real friction point that kills momentum in early product development. Right now, teams have these sprawling Slack threads or document comments where a product concept gets refined through natural conversation, but then someone has to manually distill that into a spec. That's tedious, time-consuming, and introduces translation errors. By automating the extraction, you capture the thinking at peak clarity while the context is still hot.\n\nThe maturity score trigger is particularly smart because it respects the creative process. Ideas need room to breathe and evolve without premature structuring. A 0.8 threshold means the concept has been stress-tested enough that key elements—problem statement, user value, constraints—have emerged and stabilized. This prevents garbage-in-garbage-out scenarios where half-baked ideas get formalized too early.\n\nTechnically, this is highly feasible with current LLMs. You can use conversation analysis to track when entities (features, users, constraints) stop mutating and when contradictions get resolved. Track semantic stability across messages. Once vocabulary settles and people stop introducing new problem dimensions, that signals maturity. The spec generation itself is straightforward prompt engineering: extract problem statement, identify stakeholders mentioned, list proposed solutions, catalog raised objections and their resolutions.\n\nThe real user value is velocity and quality simultaneously. Product managers spend hours reconstructing decisions from chat logs. Engineers get specs that miss crucial context discussed verbally. This tool creates institutional memory automatically. It captures not just what was decided but why alternatives were rejected, which prevents teams from relitigating the same debates later.\n\nThe activation trigger also creates a psychological benefit: teams can see their conversation \"leveling up\" toward spec-worthy, which gamifies rigor. People naturally tighten their thinking when they know structure will emerge from clarity. And because it's automatic, there's no social awkwardness of someone jumping in to say \"okay, let me write this up now\"—the tool just quietly works in the background until the idea is ready.",
+          "token_count": 624
+        },
+        "devil": {
+          "content": "The maturity score is a technical fantasy. You're claiming an algorithm can detect when a conversation has reached 0.8 \"confidence\" that an idea is ready to become a spec, but this metric is fundamentally unmeasurable. What does 0.8 even mean? Eighty percent of what? Confidence is not a scalar property that increases linearly as people talk. Real product discussions loop back, contradict themselves strategically, leave threads dangling on purpose, and often reach false consensus when everyone is just tired.\n\nYour semantic stability metric is worthless in practice. Product conversations don't \"settle\" cleanly. A team might stop mentioning new features simply because they got distracted, ran out of time, or one dominant voice shut down exploration. Vocabulary stabilizes when people give up just as often as when they've reached clarity. You can't distinguish between \"we've refined this to its essence\" and \"we're talking in circles\" or \"everyone has stopped caring\" by counting entity mutations.\n\nWorse, the threshold itself will either fire too early and spam teams with half-baked specs, or fire too late and miss the moment entirely. Set it too sensitive and you're generating docs from small talk. Set it too conservative and teams will finish their conversation, move on to implementation, and your tool spits out a spec three days later that nobody needs anymore. There's no universal calibration because every team, every domain, and every type of product idea has different conversation dynamics.\n\nAnd you've completely ignored adversarial scenarios. What happens when someone realizes the tool is listening and games it? They'll either perform for the algorithm with artificial clarity, or worse, they'll self-censor the messy exploration that leads to actual innovation because they know it's being \"scored.\" The observation changes the behavior, destroying the natural conversation flow you claim to preserve. Your tool doesn't capture authentic thinking—it creates a new theatrical genre of \"conversation optimized for spec extraction.\"",
+          "token_count": 1053
+        }
+      },
+      {
+        "round": 2,
+        "advocate": {
+          "content": "The maturity score doesn't need to be philosophically perfect—it needs to be useful enough to beat the current state, which is humans eyeballing when to stop talking and start writing. Teams already make this judgment call imperfectly every day. The threshold can be tuned per team based on historical data: track when they naturally transitioned from discussion to documentation in the past, identify the conversational markers present at those moments, then calibrate to trigger slightly before that point. This becomes more accurate over time, not less.\n\nYour \"garbage detection\" concern actually strengthens the case for automation. Yes, conversations end for bad reasons—fatigue, dominance, distraction. But human spec writers are equally vulnerable to these failure modes and worse at detecting them. An algorithmic system can flag low-quality triggers explicitly: \"Maturity score reached, but participation dropped by 60% in final third of conversation\" or \"Key objection raised by Sarah was never addressed.\" This gives teams a quality signal they don't currently have, prompting them to recognize when they've cut discussion short prematurely.\n\nThe gaming concern is overstated and actually reveals hidden value. If people perform slightly more rigor because they know structure will emerge, that's a feature not a bug. Code review changes how people write code—for the better. The knowledge that your reasoning will be captured and formalized naturally encourages people to be more explicit about tradeoffs and assumptions. And if someone wants to game it maliciously, they could already game human spec writers just as easily.\n\nHere's the new argument: this tool creates accountability infrastructure that doesn't exist today. When a spec is auto-generated from conversation, it includes attribution—who proposed what, who raised which concerns, whose questions went unanswered. This makes invisible labor visible. Right now, the person who writes the spec gets implicit credit for the thinking, even if the best ideas came from someone else in discussion. Auto-extraction democratizes credit and creates a searchable record of intellectual contribution. For remote and async teams especially, this is transformative: junior engineers or distributed team members whose ideas get lost in real-time meetings suddenly have their contributions explicitly documented and timestamped.",
+          "token_count": 1528
+        },
+        "devil": {
+          "content": "Your attribution infrastructure is a lawsuit waiting to happen and a workplace toxicity generator. You're proposing to create a permanent, searchable record of who said what in conversations that people currently treat as semi-private brainstorming spaces. This fundamentally breaks the psychological safety required for actual innovation.\n\nWhen people know their half-formed thoughts will be timestamped and attributed in a formal document, they won't share half-formed thoughts anymore. The entire value of conversational product development is that people can float bad ideas, contradict themselves, ask stupid questions, and challenge authority without permanent record. Your \"accountability infrastructure\" transforms brainstorming sessions into deposition transcripts. The junior engineer you claim to help will simply stop speaking rather than risk having their naive suggestion permanently attached to their name in a spec that gets circulated to executive leadership.\n\nThe legal exposure is enormous. Employment lawyers will have a field day with auto-generated records showing exactly who opposed diversity initiatives, who suggested cutting corners on accessibility, or who proposed ideas that could be construed as discriminatory. Right now, these moments happen in conversation, get corrected socially, and the team moves on. Your tool creates discoverable evidence of every problematic statement made during product discussions. Companies will be forced to either turn it off or face massively increased litigation risk in wrongful termination, discrimination, and IP disputes.\n\nWorse, your attribution system will be gamed instantly—not by individuals performing rigor, but by political operators weaponizing credit. The ambitious product manager will dominate conversations with verbose restating of others' ideas to ensure their name appears most frequently in the generated spec. The credit you're trying to democratize becomes a new arena for the loudest voices to claim ownership. You've just built an automated credit-stealing machine for whoever talks the most.\n\nAnd practically, attribution is technically unsolvable. When five people refine an idea through crosstalk, whose idea is it? Your algorithm will make arbitrary decisions that create resentment. \"The system gave Maria credit for my insight\" becomes a new source of team conflict that didn't exist before.",
+          "token_count": 1989
+        }
+      },
+      {
+        "round": 3,
+        "advocate": {
+          "content": "The psychological safety concern assumes the worst possible implementation rather than the obvious solution: configurable privacy controls. Teams choose their own transparency level. Some might want full attribution for accountability; others might want anonymized contribution tracking (\"three participants raised scalability concerns\") or opt for zero attribution with pure content extraction. The tool adapts to team culture rather than imposing one model. Plenty of teams already record meetings, use decision logs, or maintain RFCs with full attribution—this isn't introducing surveillance, it's automating documentation they already voluntarily create.\n\nYour legal exposure argument actually cuts the opposite direction. Right now, undocumented conversations are *more* legally dangerous because there's no authoritative record when disputes arise. \"He said/she said\" conflicts are nightmares in litigation. A clear, timestamped record of what was actually proposed and decided provides legal protection, not exposure. And if someone says something actionably problematic in a product meeting, that's a real issue that *should* be documented so it can be addressed through proper channels rather than swept under the rug. You're essentially arguing that the value of being able to say problematic things without record outweighs institutional accountability.\n\nThe credit-gaming concern proves you're taking the attribution feature seriously as valuable—otherwise why would people bother gaming it? And the solution is the same as any information system: design against manipulation. Weight contributions by novelty and influence, not verbosity. Track whose ideas get built upon versus whose get ignored. Flag suspiciously redundant restatements. These are solvable UX problems.\n\nHere's the new argument: this tool enables asynchronous product development at a level currently impossible. Right now, product conversations require synchronous presence because the context lives in someone's head, and that person has to manually write the spec afterward. With auto-extraction, distributed teams across time zones can contribute to a conversation over days, each person reading the current state and adding thoughts, with the tool continuously updating the emerging spec. The maturity score becomes a coordination signal: \"we're at 0.65, still needs more input on the data model\" tells people exactly where to focus their async contributions.\n\nThis is especially powerful for open source projects or large enterprises where stakeholders can't schedule synchronous time but need to contribute to product direction.",
+          "token_count": 2482
+        },
+        "devil": {
+          "content": "Your asynchronous coordination fantasy collapses under the reality of context decay and comprehension overhead. A product conversation stretched across days or weeks with people dipping in and out doesn't produce better specs—it produces incoherent Frankenstein documents stitched together from incompatible mental models that never got reconciled through real dialogue.\n\nSynchronous conversation has value precisely because it forces immediate collision and resolution of conflicting assumptions. When someone proposes a feature and another person immediately responds \"wait, but that breaks our data model,\" they hash it out right then. In your async model, those contradictions get added to the document as separate contributions with no reconciliation. The first person posts their idea on Monday morning, someone else posts a conflicting approach Wednesday evening, and your tool dutifully extracts both into the spec as if they're compatible. The maturity score ticks upward because \"entities have stabilized\" even though the underlying ideas are fundamentally at odds.\n\nThe comprehension overhead makes this unusable at scale. Each new async participant has to read the entire conversation history to contribute meaningfully, but conversations don't scale linearly—they branch, reference earlier points, build on implications. By day three, new participants face a 10,000-word thread they need to fully internalize before adding value. Most will skim, miss crucial context, and add redundant or contradictory points. Your tool can't fix this because it's a fundamental limit of async communication: shared understanding requires shared presence.\n\nFor open source, this is even worse. You're fantasizing about distributed strangers with varying expertise and commitment levels collaboratively refining a product spec through async conversation fragments. Real open source projects solve this with strong individual leadership—one person writes the RFC and others comment. What you're proposing is design-by-committee stretched across time zones and skill levels, which is famously how you get the worst possible outcomes. The maturity score will never converge because new contributors keep arriving, don't read the full history, and reopen settled questions.\n\nThe coordination signal itself is meaningless. \"We're at 0.65, needs more input on data model\" doesn't tell anyone what specific gap to fill—it's just a number.",
+          "token_count": 2978
+        }
+      }
+    ],
+    "termination_reason": "max_rounds"
+  },
+  "meta": {
+    "total_tokens": 10654,
+    "total_input_tokens": 7936,
+    "total_output_tokens": 2718,
+    "total_cost_usd": 0.0,
+    "pipeline_duration_sec": 0
+  },
+  "synthesis": {
+    "prd": {},
+    "claude_md": "",
+    "prompt_chain": []
+  },
+  "unknowns": []
+}

@@ -210,6 +210,9 @@ def run_debate(transcript_path: Path, client: anthropic.Anthropic | None = None)
     data["debate"] = {"rounds": rounds, "termination_reason": termination_reason}
     meta = data.setdefault("meta", {})
     meta["total_tokens"] = total_input + total_output
+    # Split kept so Baron can price the whole pipeline (input/output rates differ).
+    meta["total_input_tokens"] = total_input
+    meta["total_output_tokens"] = total_output
     logger.info(
         "Debate finished: %d rounds, %s, tokens in=%d out=%d",
         len(rounds), termination_reason, total_input, total_output,
