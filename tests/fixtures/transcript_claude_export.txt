@@ -1,0 +1,23 @@
+[System]
+You are Claude, an AI assistant.
+
+[Human]
+Bir fikir olgunlaştığında bunu otomatik algılayan bir sistem kurmak istiyorum.
+
+[Assistant]
+Güzel bir fikir. Olgunluğu ölçmek için hangi sinyallere bakmak istersin?
+
+[Human]
+
+
+[Human]
+Soru tipinin değişmesi ve maliyet sorularının başlaması iyi bir işaret olabilir.
+
+[Assistant]
+Katılıyorum. İki aşamalı bir yapı öneriyorum:
+
+1. Hızlı regex tetikleyicileri
+2. Yerel bir modelle yumuşak skor
+
+[Human]
+Harika, bununla başlayalım.

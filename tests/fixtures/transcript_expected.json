@@ -1,0 +1,54 @@
+{
+  "message_count": 7,
+  "transcript": [
+    {
+      "id": 1,
+      "role": "user",
+      "content": "I want to build a tool that watches my AI chats and tells me when an idea is ready.",
+      "timestamp": null,
+      "word_count": 19
+    },
+    {
+      "id": 2,
+      "role": "assistant",
+      "content": "Interesting. What would \"ready\" mean for you?\nIs it about detail, or about confidence?",
+      "timestamp": null,
+      "word_count": 14
+    },
+    {
+      "id": 3,
+      "role": "user",
+      "content": "Mostly detail. When I start asking about feasibility and cost, the idea is mature.",
+      "timestamp": null,
+      "word_count": 14
+    },
+    {
+      "id": 4,
+      "role": "user",
+      "content": "Hello? Your last message was empty.",
+      "timestamp": null,
+      "word_count": 6
+    },
+    {
+      "id": 5,
+      "role": "assistant",
+      "content": "Sorry about that. We could score maturity with a few signals:\n- lexical saturation\n- question type shift\n- feasibility queries",
+      "timestamp": null,
+      "word_count": 21
+    },
+    {
+      "id": 6,
+      "role": "user",
+      "content": "Great, let's summarize: a local model scores maturity, then a debate refines the idea.",
+      "timestamp": null,
+      "word_count": 14
+    },
+    {
+      "id": 7,
+      "role": "assistant",
+      "content": "Yes, that is a solid summary. Shall we start with the parser?",
+      "timestamp": null,
+      "word_count": 12
+    }
+  ]
+}

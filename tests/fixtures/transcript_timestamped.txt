@@ -1,0 +1,8 @@
+2026-09-27 14:00 [system] Session started
+2026-09-27 14:00 [user] Can we add a debate step between two agents?
+2026-09-27 14:01 [assistant] Yes. An Advocate and a Devil agent can argue for three rounds.
+The debate should stop when arguments stop being new.
+2026-09-27 14:02:30 [user] How do we measure "new"?
+2026-09-27 14:03 [assistant] 
+2026-09-27 14:03 [assistant] A novelty ratio: the share of claims not seen in earlier rounds.
+2026-09-27 14:04 [user] Perfect, stop below 0.15 after round two.
