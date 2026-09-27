@@ -2,3 +2,4 @@ jsonschema
 python-dotenv
 requests  # observer.py için eklendi
 tenacity  # observer.py için eklendi
+anthropic>=0.34  # debate.py için eklendi
