@@ -277,13 +277,34 @@ def default_output_path(input_path: Path, data: dict) -> Path:
 
 # --- Pipeline ----------------------------------------------------------------
 
-def run_baron(input_path: str, output_path: str, client=None) -> dict:
-    """PRD -> CLAUDE.md -> prompt chain, writing to output_path after each call."""
-    input_path, output_path = Path(input_path), Path(output_path)
-    if not input_path.is_file():
-        raise FileNotFoundError(f"Transcript not found: {input_path}")
-    data = json.loads(input_path.read_text(encoding="utf-8"))
-    output_path.parent.mkdir(parents=True, exist_ok=True)
+def run_baron(source: dict | str, output_path: str | None = None, client=None) -> dict:
+    """PRD -> CLAUDE.md -> prompt chain. Returns the enriched document.
+
+    `source` is a transcript dict (enriched in place) or a path to one. When
+    `output_path` is given, transcript.json is written there after every call
+    and CLAUDE.md / prompts.json next to it. Path input requires output_path.
+    """
+    if isinstance(source, dict):
+        data = source
+    else:
+        input_path = Path(source)
+        if not input_path.is_file():
+            raise FileNotFoundError(f"Transcript not found: {input_path}")
+        if output_path is None:
+            raise ValueError("output_path is required when source is a path")
+        data = json.loads(input_path.read_text(encoding="utf-8"))
+
+    out = Path(output_path) if output_path is not None else None
+    if out is not None:
+        out.parent.mkdir(parents=True, exist_ok=True)
+
+    def _save(extra_name: str | None = None, extra_text: str | None = None) -> None:
+        if out is None:
+            return
+        atomic_write_json(data, out)
+        if extra_name:
+            (out.parent / extra_name).write_text(extra_text + "\n", encoding="utf-8")
+
     # tenacity owns retries; disable the SDK's built-in retry layer.
     client = client or anthropic.Anthropic(max_retries=0)
 
@@ -299,29 +320,25 @@ def run_baron(input_path: str, output_path: str, client=None) -> dict:
     synthesis["prd"] = prd
     data["unknowns"] = list(prd.get("unknowns", []))
     _add_usage(data, tokens_in, tokens_out)
-    atomic_write_json(data, output_path)
-    logger.info("1/3 PRD written (%d unknowns)", len(data["unknowns"]))
+    _save()
+    logger.info("1/3 PRD done (%d unknowns)", len(data["unknowns"]))
 
     claude_md, tokens_in, tokens_out = _call_claude_md(client, data)
     synthesis["claude_md"] = claude_md
     _add_usage(data, tokens_in, tokens_out)
-    atomic_write_json(data, output_path)
-    (output_path.parent / "CLAUDE.md").write_text(claude_md + "\n", encoding="utf-8")
-    logger.info("2/3 CLAUDE.md written")
+    _save("CLAUDE.md", claude_md)
+    logger.info("2/3 CLAUDE.md done")
 
     chain, tokens_in, tokens_out = _call_prompts(client, data)
     validate_prompt_chain(chain)
     synthesis["prompt_chain"] = chain
     _add_usage(data, tokens_in, tokens_out)
-    atomic_write_json(data, output_path)
-    (output_path.parent / "prompts.json").write_text(
-        json.dumps(chain, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    logger.info("3/3 prompt chain written (%d prompts)", len(chain))
+    _save("prompts.json", json.dumps(chain, ensure_ascii=False, indent=2))
+    logger.info("3/3 prompt chain done (%d prompts)", len(chain))
 
     logger.info(
-        "Baron finished: total_tokens=%d, total_cost_usd=$%.4f, output=%s",
-        meta["total_tokens"], meta["total_cost_usd"], output_path.parent,
+        "Baron finished: total_tokens=%d, total_cost_usd=$%.4f",
+        meta["total_tokens"], meta["total_cost_usd"],
     )
     return data
 

@@ -216,3 +216,13 @@ def test_message_roles_alternate(transcript_path):
 
 def test_cli_missing_transcript_exits_1(tmp_path):
     assert debate.main(["--transcript", str(tmp_path / "nope.json")]) == 1
+
+
+def test_dict_input_runs_in_memory_without_writing(transcript_path):
+    original = transcript_path.read_bytes()
+    data = json.loads(original)
+    result = debate.run_debate(data, client=make_client())
+
+    assert result is data
+    assert len(result["debate"]["rounds"]) == 3
+    assert transcript_path.read_bytes() == original   # nothing written

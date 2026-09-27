@@ -302,3 +302,18 @@ def test_default_output_path(tmp_path):
 
 def test_cli_missing_input_exits_1(tmp_path):
     assert baron.main([str(tmp_path / "nope.json")]) == 1
+
+
+def test_dict_input_without_output_path_writes_nothing(transcript_path, tmp_path):
+    data = read_json(transcript_path)
+    before = set(tmp_path.rglob("*"))
+    result = baron.run_baron(data, client=make_client())
+
+    assert result is data
+    assert result["synthesis"]["prompt_chain"] == CHAIN
+    assert set(tmp_path.rglob("*")) == before
+
+
+def test_path_input_requires_output_path(transcript_path):
+    with pytest.raises(ValueError):
+        baron.run_baron(str(transcript_path), client=make_client())

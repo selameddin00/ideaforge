@@ -191,6 +191,8 @@ def query_ollama_signals(prompt: str) -> dict[str, bool]:
             },
             timeout=OLLAMA_TIMEOUT_SEC,
         )
+        if resp.status_code == 404:
+            logger.error("Ollama model '%s' not found - run `ollama pull %s`", OLLAMA_MODEL, OLLAMA_MODEL)
         resp.raise_for_status()
     except requests.exceptions.ConnectionError:
         logger.error("Cannot reach Ollama at %s - is `ollama serve` running?", OLLAMA_URL)
@@ -237,10 +239,17 @@ def evaluate_maturity(transcript: list[dict], manual: bool = False) -> dict:
     return maturity
 
 
+def run_observer(data: dict, manual: bool = False) -> dict:
+    """Merge `maturity` into an in-memory transcript document and return it."""
+    if not isinstance(data.get("transcript"), list):
+        raise ValueError("data has no 'transcript' array")
+    data["maturity"] = evaluate_maturity(data["transcript"], manual=manual)
+    return data
+
+
 def run(input_path: str | Path, output_path: str | Path | None = None, manual: bool = False) -> dict:
     """Load transcript.json, merge in `maturity`, write to output (default: input)."""
-    data = load_transcript(input_path)
-    data["maturity"] = evaluate_maturity(data["transcript"], manual=manual)
+    data = run_observer(load_transcript(input_path), manual=manual)
     write_output(data, output_path or input_path)
     return data
 

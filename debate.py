@@ -156,13 +156,25 @@ def atomic_write_json(data: dict, path: Path) -> None:
 
 # --- Debate ------------------------------------------------------------------
 
-def run_debate(transcript_path: Path, client: anthropic.Anthropic | None = None) -> dict:
-    """Run the debate, merge it into transcript.json, and return the full document.
+def run_debate(source: dict | str | Path, client: anthropic.Anthropic | None = None) -> dict:
+    """Run the debate and return the full enriched document.
+
+    `source` is either an in-memory transcript dict (enriched in place, nothing
+    written — the caller persists it) or a path to transcript.json (loaded,
+    enriched, and atomically written back).
 
     Raises SystemExit(1) if the API is still failing after all retries.
     """
-    transcript_path = Path(transcript_path)
-    data = load_transcript(transcript_path)
+    if isinstance(source, dict):
+        return _debate(source, client)
+    transcript_path = Path(source)
+    data = _debate(load_transcript(transcript_path), client)
+    atomic_write_json(data, transcript_path)
+    logger.info("Output written: %s", transcript_path)
+    return data
+
+
+def _debate(data: dict, client: anthropic.Anthropic | None) -> dict:
     idea = build_idea_context(data)
     advocate_system = ADVOCATE_PROMPT_PATH.read_text(encoding="utf-8").strip()
     devil_system = DEVIL_PROMPT_PATH.read_text(encoding="utf-8").strip()
@@ -217,9 +229,6 @@ def run_debate(transcript_path: Path, client: anthropic.Anthropic | None = None)
         "Debate finished: %d rounds, %s, tokens in=%d out=%d",
         len(rounds), termination_reason, total_input, total_output,
     )
-
-    atomic_write_json(data, transcript_path)
-    logger.info("Output written: %s", transcript_path)
     return data
 
 

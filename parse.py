@@ -226,6 +226,16 @@ def parse_file(path: str | Path) -> dict:
     return parse_text(decode_bytes(Path(path).read_bytes()))
 
 
+def run_parser(input_path: str, output_path: str) -> dict:
+    """Parse input_path and write the transcript JSON to output_path."""
+    result = parse_file(input_path)
+    out = Path(output_path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    logger.info("Wrote %s", out)
+    return result
+
+
 # --- CLI ---------------------------------------------------------------------
 
 def main(argv: list[str] | None = None) -> int:
