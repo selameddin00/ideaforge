@@ -219,3 +219,6 @@ __marimo__/
 
 # IdeaForge pipeline outputs
 outputs/
+
+# Explicit entries for public release
+*.pyc
