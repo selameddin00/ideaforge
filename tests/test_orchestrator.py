@@ -255,3 +255,25 @@ def test_traceback_in_log_not_console(outputs_dir, agents, capsys):
     console = capsys.readouterr().err
     assert "Ollama exploded" in console and "Traceback" not in console
     assert "Traceback" in (default_dir(outputs_dir) / "pipeline.log").read_text(encoding="utf-8")
+
+
+MATURE_FIXTURE = Path(__file__).parent / "fixtures" / "transcript_mature.txt"
+
+
+def test_hard_trigger_fired_on_console(outputs_dir, capsys):
+    # Real observer: the hard trigger must fire without ever calling Ollama.
+    with patch("observer.requests.post", side_effect=AssertionError("Ollama must not be called")):
+        assert orchestrator.run_cli(["run", str(MATURE_FIXTURE), "--dry-run"]) == 0
+
+    console = capsys.readouterr().err
+    assert "TRIGGER FIRED" in console
+    assert "trigger=hard_trigger" in console
+    out = outputs_dir / f"{date.today():%Y-%m-%d}_transcript_mature"
+    assert read_json(out / "transcript.json")["maturity"]["triggered_by"] == "hard_trigger"
+
+
+def test_manual_does_not_print_trigger_fired(outputs_dir, capsys):
+    assert orchestrator.run_cli(["run", str(MATURE_FIXTURE), "--dry-run", "--manual"]) == 0
+    console = capsys.readouterr().err
+    assert "TRIGGER FIRED" not in console
+    assert "trigger=manual" in console

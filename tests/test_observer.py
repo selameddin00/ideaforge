@@ -203,3 +203,17 @@ def test_invalid_json_raises(tmp_path):
     bad.write_text("{not valid json", encoding="utf-8")
     with pytest.raises(json.JSONDecodeError):
         observer.run(bad)
+
+
+def test_mature_fixture_fires_hard_trigger():
+    import parse
+
+    transcript = parse.parse_file(FIXTURES / "transcript_mature.txt")["transcript"]
+    with patch("observer.requests.post") as mock_post:
+        maturity = observer.evaluate_maturity(transcript)
+    assert maturity["triggered_by"] == "hard_trigger"
+    assert maturity["score"] == 1.0
+    assert mock_post.call_count == 0
+    # The fixture exercises every hard trigger pattern, not just the first.
+    for pattern in observer.HARD_TRIGGER_PATTERNS:
+        assert any(pattern.search(m["content"]) for m in transcript), pattern.pattern
