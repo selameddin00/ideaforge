@@ -25,7 +25,7 @@ from pathlib import Path
 
 from baron import INPUT_COST_PER_MTOK, OUTPUT_COST_PER_MTOK, run_baron
 from debate import MAX_ROUNDS, atomic_write_json, run_debate
-from observer import run_observer
+from observer import HARD_TRIGGER_PATTERNS, run_observer
 from parse import run_parser
 
 logger = logging.getLogger("ideaforge.orchestrator")
@@ -67,6 +67,15 @@ def resolve_output_dir(input_path: Path, output_dir: str | None) -> Path:
             path = base.with_name(f"{base.name}_{n:03d}")
     path.mkdir(parents=True, exist_ok=True)
     return path
+
+
+def find_hard_trigger_hit(transcript: list[dict]) -> tuple[int, str] | None:
+    """(message id, matched phrase) of the first hard trigger, for the console."""
+    for msg in transcript:
+        for pattern in HARD_TRIGGER_PATTERNS:
+            if match := pattern.search(msg.get("content", "")):
+                return msg["id"], match.group(0)
+    return None
 
 
 # --- Logging -----------------------------------------------------------------
@@ -231,6 +240,8 @@ def run_pipeline(
             "✓ %-9s score=%.2f | trigger=%s | %.1fs",
             "observer", maturity["score"], maturity["triggered_by"], time.perf_counter() - t,
         )
+        if maturity["triggered_by"] == "hard_trigger" and (hit := find_hard_trigger_hit(data["transcript"])):
+            logger.info("🔥 TRIGGER FIRED  message #%d: \"%s\"", *hit)
 
         if dry_run:
             logger.info("Dry run: debate and baron skipped")

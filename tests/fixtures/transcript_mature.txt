@@ -1,0 +1,13 @@
+User: Bir süredir aklımda olan fikri netleştirmek istiyorum: AI sohbetlerimi izleyen ve bir fikir olgunlaştığında bunu fark eden bir araç.
+Assistant: Güzel fikir. Olgunluğu neye göre anlayacaksın? Kelime tekrarı mı, soru tipinin değişmesi mi?
+User: İkisi de. Fizibilite ve maliyet sormaya başladığımda fikir olgunlaşmış demektir. Sonra iki ajan fikri tartışsın, biri savunsun biri eleştirsin.
+Assistant: Yani akış şöyle: sohbet → olgunluk kontrolü → Advocate ve Devil tartışması → sentez → Claude Code promptları. Doğru mu özetledim?
+User: Evet, aynen böyle. Buna IdeaForge diyeceğiz.
+Assistant: IdeaForge güzel bir isim. Kapsamı da netleşti: olgunluk skoru, 3 turluk tartışma ve sentez.
+User: Tamam, bunu gerçekten yapalım. Hangi stack ile başlamalıyız?
+Assistant: Pipeline için Python yeterli. Arayüz istersen Next.js, veri ve kimlik doğrulama için Supabase iyi bir ikili olur.
+User: Next.js + Supabase mantıklı. Peki olgunluk kontrolünü nasıl implement ederiz?
+Assistant: Önce regex ile hard trigger, tetiklenmezse yerel bir modelle (Qwen 2.5 7B) soft skor. Tartışma ve sentez Claude Sonnet ile.
+User: MVP için maliyet ne olur? Tek çalıştırma 0.50 doları geçmesin.
+Assistant: Tartışma yaklaşık 12k, sentez 20k token. Sonnet fiyatlarıyla tek çalıştırma 0.50 doların altında kalır.
+User: Harika. Repo oluştur, GitHub'a koyalım ve production'a hazır hale getirelim.
