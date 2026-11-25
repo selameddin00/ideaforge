@@ -47,8 +47,15 @@ Do not ask any other clarifying questions. Score what you have.
 
 ## 2. Hard triggers (check first)
 
-Scan **every message** (user and AI), case-insensitive. A hard trigger fires
-if **any one** of the three groups below matches.
+Scan **only `user` messages**, case-insensitive. **Skip every `ai` /
+assistant message entirely** — a stack, name, or competitor the assistant
+suggests is not evidence that the user has committed to the idea. It counts
+only once the user writes it themselves (e.g. the AI says "you could use
+Supabase" → no trigger; the user replies "ok, Supabase then" → trigger).
+
+A hard trigger fires if **any one** of the three groups below matches in a
+user message. If roles could not be told apart (section 1, step 1) and every
+message was treated as `user`, say so in `notes`.
 
 ### 2a. Stack names
 Whole-word match of any of:
@@ -57,7 +64,7 @@ Whole-word match of any of:
 `redis`, `stripe`, `supabase`, `vercel`, `figma`, `notion`
 
 ### 2b. Product naming
-The conversation gives the product a name. Patterns:
+The user gives the product a name. Patterns:
 
 | Language | Pattern (X = a proposed name) |
 |---|---|
@@ -68,7 +75,7 @@ X must be an actual proposed name (e.g. "let's call it Forgely"), not a
 generic phrase ("let's call it a day", "buna sorun diyeceğiz").
 
 ### 2c. Competitor reference
-The idea is positioned against an existing product. Patterns:
+The user positions the idea against an existing product. Patterns:
 
 | Language | Pattern (X = a product, company, or brand) |
 |---|---|
@@ -87,9 +94,12 @@ The idea is positioned against an existing product. Patterns:
 - Still evaluate the four soft signals and report them truthfully. They are
   informational in this case and do **not** change the score.
 - Record every match in `hard_trigger_matches` as
-  `"<matched text>" (msg #<n>, <group>)`.
+  `"<matched text>" (msg #<n>, <group>)`. Every `msg #n` listed here must be
+  a `user` message.
 
-If nothing matches, set `hard_trigger_matches: none` and go to section 3.
+If nothing matches in any user message, set `hard_trigger_matches: none`
+and go to section 3 — even if assistant messages mention stack names,
+product names, or competitors.
 
 ---
 

@@ -87,7 +87,7 @@ next_step: Paste this whole block into "Structured Idea Debate"
 === END MATURITY REPORT ===
 ```
 
-**How it scores:** if a **hard trigger** is found (a stack name like Next.js, Stripe, or Supabase; a product name like "let's call it X"; a competitor reference like "Notion for Y"), the score is 1.0. Otherwise four **soft signals** are checked and the score is *true signals ÷ 4*. A score of **0.7 or higher** (3 of 4 signals) means `MATURE`.
+**How it scores:** if a **hard trigger** is found (a stack name like Next.js, Stripe, or Supabase; a product name like "let's call it X"; a competitor reference like "Notion for Y") **in one of your own messages**, the score is 1.0. Hard triggers fire only on user messages, not assistant responses. Otherwise four **soft signals** are checked and the score is *true signals ÷ 4*. A score of **0.7 or higher** (3 of 4 signals) means `MATURE`.
 
 If the verdict is `NOT YET`, the report lists which signals are missing and what to ask next. Keep chatting, then run it again.
 
