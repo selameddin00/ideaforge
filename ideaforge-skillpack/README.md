@@ -32,11 +32,21 @@ There is no server, no Python, no API key. Each skill is a plain instruction fil
    ```
    Where this config lives depends on your agent (Claude Code, Claude Desktop, Cursor, etc.). Follow Agensi's setup guide at agensi.io/docs/mcp-setup for your client.
 2. Restart your agent and ask it: *"Install the IdeaForge Skill Pack from Agensi."*
-3. Check that it worked: *"List my IdeaForge skills."* You should see `idea-maturity-detector`, `structured-idea-debate`, and `idea-to-prd`.
+3. Check that it worked: *"List my IdeaForge skills."* You should see `observer` (Idea Maturity Detector), `debate` (Structured Idea Debate), and `baron` (Idea to PRD).
 
 ### Option B: Manual
 
-Download the ZIP from the listing and copy `observer.md`, `debate.md`, and `baron.md` into your agent's skills folder. For Claude Code, that is `.claude/skills/<skill-name>/SKILL.md`. Rename each file to `SKILL.md` inside its own folder. Any agent that can read a Markdown instruction file also works: attach the file to the chat and say "follow this skill".
+Download the ZIP from the listing and unzip it. It contains one folder per skill:
+
+```
+ideaforge-skillpack/
+├── observer/SKILL.md
+├── debate/SKILL.md
+├── baron/SKILL.md
+└── README.md
+```
+
+Copy the three folders (`observer/`, `debate/`, `baron/`) into your agent's skills folder as they are. For Claude Code, that is `.claude/skills/` in your project or `~/.claude/skills/` for all projects, so you end up with `.claude/skills/observer/SKILL.md` and so on. Any agent that can read a Markdown instruction file also works: attach the `SKILL.md` to the chat and say "follow this skill".
 
 ---
 
@@ -191,6 +201,6 @@ All three skills work in **Turkish and English**, including conversations that m
 
 | File | Skill | Input | Output block |
 |---|---|---|---|
-| `observer.md` | Idea Maturity Detector | AI conversation | `MATURITY REPORT` |
-| `debate.md` | Structured Idea Debate | `MATURITY REPORT` (+ optional summary) | `DEBATE SUMMARY` |
-| `baron.md` | Idea to PRD | `DEBATE SUMMARY` | `PRD` → `CLAUDE.md` → `PROMPT CHAIN` |
+| `observer/SKILL.md` | Idea Maturity Detector | AI conversation | `MATURITY REPORT` |
+| `debate/SKILL.md` | Structured Idea Debate | `MATURITY REPORT` (+ optional summary) | `DEBATE SUMMARY` |
+| `baron/SKILL.md` | Idea to PRD | `DEBATE SUMMARY` | `PRD` → `CLAUDE.md` → `PROMPT CHAIN` |

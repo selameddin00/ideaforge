@@ -1,5 +1,5 @@
 ---
-name: structured-idea-debate
+name: debate
 description: >
   Stress-tests a mature idea with a structured 2–3 round debate between an
   Advocate and a Devil's Advocate, stopping when no new arguments appear. Takes

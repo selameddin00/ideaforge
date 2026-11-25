@@ -4,7 +4,7 @@
 
 ---
 
-## 1. Idea Maturity Detector (`observer.md`)
+## 1. Idea Maturity Detector (`observer/SKILL.md`)
 
 **Short description (card):**
 Paste your AI brainstorm and find out in seconds whether the idea is ready to build, with a score, four signals, and what to ask next.
@@ -21,7 +21,7 @@ Works in Turkish and English, including mixed conversations. No API keys, no ser
 
 ---
 
-## 2. Structured Idea Debate (`debate.md`)
+## 2. Structured Idea Debate (`debate/SKILL.md`)
 
 **Short description (card):**
 An Advocate and a Devil's Advocate argue your idea for 2–3 rounds until no new arguments appear, then hand you the strongest arguments, real risks, and open questions.
@@ -38,7 +38,7 @@ It takes the MATURITY REPORT from **Idea Maturity Detector** as input and won't 
 
 ---
 
-## 3. Idea to PRD (`baron.md`)
+## 3. Idea to PRD (`baron/SKILL.md`)
 
 **Short description (card):**
 Turn a debated idea into a PRD, a CLAUDE.md project constitution, and a 5-step prompt chain ready to paste into Claude Code, Cursor, or Copilot.

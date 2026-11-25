@@ -1,5 +1,5 @@
 ---
-name: idea-maturity-detector
+name: observer
 description: >
   Scores whether an idea discussed in a pasted AI conversation is mature enough
   to build. Runs hard-trigger checks (stack names, product naming, competitor

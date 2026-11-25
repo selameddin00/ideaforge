@@ -1,5 +1,5 @@
 ---
-name: idea-to-prd
+name: baron
 description: >
   Turns a debated idea into a build plan in three approved stages: a PRD, a
   CLAUDE.md project constitution, and a 5-step prompt chain ready to paste into
